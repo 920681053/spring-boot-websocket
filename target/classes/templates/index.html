@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Testing websockets</title>
+</head>
+<body>
+<div>
+    <input type="submit" value="send" onclick="send()"/>
+    <input type="submit" value="close" onclick="stop()"/>
+</div>
+<div id="messages"></div>
+<script type="text/javascript">
+
+    var webSocket = new WebSocket('ws://localhost:8080/message');
+
+    webSocket.onopen = function (event) {
+        document.getElementById('messages').innerHTML = 'Connection established';
+    };
+
+    function send() {
+        webSocket.send('hello1');
+    }
+
+    webSocket.onerror = function (event) {
+        alert(event.data);
+    };
+
+    webSocket.onmessage = function (event) {
+        document.getElementById('messages').innerHTML += '<br />' + event.data;
+    };
+
+    function stop() {
+        webSocket.close();
+    }
+</script>
+</body>
+</html>
